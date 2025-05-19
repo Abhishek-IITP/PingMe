@@ -14,7 +14,6 @@ import {
   Window,
 } from "stream-chat-react";
 import { StreamChat } from "stream-chat";
-// import {  EmojiPickerIcon } from 'stream-chat-react/emojis';
 import toast from "react-hot-toast";
 
 import ChatLoader from "../components/ChatLoader";
@@ -52,11 +51,15 @@ const ChatPage = () => {
             name: authUser.fullName,
             image: authUser.profilePic,
           },
-          tokenData?.token
+          tokenData.token
         );
 
-        
+        //
         const channelId = [authUser._id, targetUserId].sort().join("-");
+
+        // you and me
+        // if i start the chat => channelId: [myId, yourId]
+        // if you start the chat => channelId: [yourId, myId]  => [myId,yourId]
 
         const currChannel = client.channel("messaging", channelId, {
           members: [authUser._id, targetUserId],
@@ -76,40 +79,37 @@ const ChatPage = () => {
 
     initChat();
   }, [tokenData, authUser, targetUserId]);
-  const handelVideoCall =()=>{
-    if(channel){
-      const callUrl =`${window.location.origin}/call/${channel.id}`
+
+  const handleVideoCall = () => {
+    if (channel) {
+      const callUrl = `${window.location.origin}/call/${channel.id}`;
+
       channel.sendMessage({
-        text: `I've started a video call. Join me here: ${callUrl}`
-      })
-      toast.success("video call Link sent successfully")
+        text: `I've started a video call. Join me here: ${callUrl}`,
+      });
+
+      toast.success("Video call link sent successfully!");
     }
+  };
 
-  }
-
-  if(loading || !chatClient || !channel) return <ChatLoader/>
-
+  if (loading || !chatClient || !channel) return <ChatLoader />;
 
   return (
-    <div className='h-[93vh]'>
+    <div className="h-[93vh]">
       <Chat client={chatClient}>
-        <Channel channel={channel} >
-          <div className='w-full relative '>
-            <CallButton handelVideoCall ={handelVideoCall} />
+        <Channel channel={channel}>
+          <div className="w-full relative">
+            <CallButton handleVideoCall={handleVideoCall} />
             <Window>
-              <ChannelHeader/>
-              <MessageList/>
-              <MessageInput focus/>
+              <ChannelHeader />
+              <MessageList />
+              <MessageInput focus />
             </Window>
-
           </div>
-          <Thread/>
+          <Thread />
         </Channel>
-        
       </Chat>
-      
     </div>
-  )
-}
-
-export default ChatPage
+  );
+};
+export default ChatPage;

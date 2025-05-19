@@ -9,18 +9,8 @@ const LoginPage = () => {
     password: "",
   });
 
-  // This is how we did it at first, without using our custom hook
-  // const queryClient = useQueryClient();
-  // const {
-  //   mutate: loginMutation,
-  //   isPending,
-  //   error,
-  // } = useMutation({
-  //   mutationFn: login,
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-  // });
 
-  // This is how we did it using our custom hook - optimized version
+
   const { isPending, error, loginMutation } = useLogin();
 
   const handleLogin = (e) => {
@@ -40,7 +30,7 @@ const LoginPage = () => {
           <div className="mb-4 flex items-center justify-start gap-2">
             <ShipWheelIcon className="size-9 text-primary" />
             <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-              PingMe
+              Streamify
             </span>
           </div>
 
@@ -120,7 +110,7 @@ const LoginPage = () => {
           <div className="max-w-md p-8">
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/1.png" alt="Language connection illustration" className="w-full h-full" />
+              <img src="/i.png" alt="Language connection illustration" className="w-full h-full" />
             </div>
 
             <div className="text-center space-y-3 mt-6">
