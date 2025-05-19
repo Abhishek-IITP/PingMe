@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useAuthUser from '../hooks/useAuthUser.js'
 import { Link, useLocation } from 'react-router'
 import { BellIcon, HomeIcon, ShipWheelIcon, UserIcon } from 'lucide-react'
 
 const Sidebar = () => {
+    const[isOnline, setIsOnline] = useState(true)
     const {authUser} = useAuthUser()
     const location = useLocation()
     const currentPath = location.pathname;
