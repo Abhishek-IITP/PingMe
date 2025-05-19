@@ -11,10 +11,16 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: 'dist',
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'stream-vendor': ['stream-chat', 'stream-chat-react', '@stream-io/video-react-sdk'],
+          'ui-vendor': ['lucide-react', 'react-hot-toast'],
+        },
       },
     },
+    chunkSizeWarningLimit: 1000,
   },
 })
