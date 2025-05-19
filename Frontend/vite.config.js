@@ -5,6 +5,7 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -22,5 +23,8 @@ export default defineConfig({
       },
     },
     chunkSizeWarningLimit: 1000,
+  },
+  server: {
+    historyApiFallback: true,
   },
 })
