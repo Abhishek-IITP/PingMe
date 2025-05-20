@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { LANGUAGE_TO_FLAG } from "../constants";
+import { MessageSquareIcon, UserIcon } from "lucide-react";
 
 const FriendCard = ({ friend }) => {
   return (
@@ -24,13 +25,21 @@ const FriendCard = ({ friend }) => {
           </span>
         </div>
 
-        <Link to={`/chat/${friend._id}`} className="btn btn-outline w-full">
-          Message
-        </Link>
+        <div className="flex gap-2">
+          <Link to={`/chat/${friend._id}`} className="btn btn-primary flex-1">
+            <MessageSquareIcon className="size-4 mr-2" />
+            Message
+          </Link>
+          <Link to={`/profile/${friend._id}`} className="btn btn-outline flex-1">
+            <UserIcon className="size-4 mr-2" />
+            Profile
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
+
 export default FriendCard;
 
 export function getLanguageFlag(language) {

@@ -146,3 +146,54 @@ export async function getOutgoingFriendReqs(req, res) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
+export async function getUserProfile(req, res) {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).select("-password");
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error in getUserProfile controller:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function removeFriend(req, res) {
+  try {
+    const myId = req.user.id;
+    const { friendId } = req.params;
+
+    // Check if users are friends
+    const user = await User.findById(myId);
+    if (!user.friends.includes(friendId)) {
+      return res.status(400).json({ message: "You are not friends with this user" });
+    }
+
+    // Remove friend from both users' friend lists
+    await User.findByIdAndUpdate(myId, {
+      $pull: { friends: friendId }
+    });
+
+    await User.findByIdAndUpdate(friendId, {
+      $pull: { friends: myId }
+    });
+
+    // Delete any existing friend requests between these users
+    await FriendRequest.deleteMany({
+      $or: [
+        { sender: myId, recipient: friendId },
+        { sender: friendId, recipient: myId }
+      ]
+    });
+
+    res.status(200).json({ message: "Friend removed successfully" });
+  } catch (error) {
+    console.error("Error in removeFriend controller:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
