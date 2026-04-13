@@ -21,7 +21,7 @@ const ProfilePage = () => {
     refetchOnWindowFocus: true,
   });
 
-  const { data: outgoingFriendReqs = [] } = useQuery({
+  useQuery({
     queryKey: ["outgoingFriendReqs"],
     queryFn: getOutgoingFriendReqs,
     refetchOnMount: true,
